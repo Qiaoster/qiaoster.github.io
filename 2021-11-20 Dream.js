@@ -62,12 +62,12 @@ class CStroke {
 
 var speed;
 var nStrokes;
-let strokes = [null, null, null];
+let strokes = [null, null, null,null,null];
 
 function setup() {
   createCanvas(300, 300);
   
-  nStrokes = 3;
+  nStrokes = 5;
   
   for (var i = 0; i < nStrokes; ++i)
   {
@@ -81,9 +81,17 @@ function setup() {
     strokes[i] = new CStroke(x,y,r,g,b,(i+1)*4);
   }
   
-  background(32);
+  background(100);
   
-  speed = 1000;
+  speed = 100;
+  
+  for (var i = 0; i < 500; ++i)
+  {
+  strokes.forEach(function(item, index, array) {
+    item.tick();
+  });
+  }
+    
 }
 
 function draw() {
