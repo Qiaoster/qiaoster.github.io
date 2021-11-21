@@ -84,13 +84,6 @@ function setup() {
   background(100);
   
   speed = 100;
-  
-  for (var i = 0; i < 500; ++i)
-  {
-  strokes.forEach(function(item, index, array) {
-    item.tick();
-  });
-  }
     
 }
 
