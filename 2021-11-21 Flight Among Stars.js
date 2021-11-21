@@ -3,6 +3,8 @@ class Star {
     this.x = int(random(10,width) - halfWidth);
     this.y = int(random(10,height) - halfHeight);
     this.z = random(0.1,1.5);
+    this.ox = this.x * this.z;
+    this.oy = this.y * this.z;
     this.h = random(0,255);
     this.s = random(4,40);
     this.b = (this.z / 1.4 + 0.1) * 255;
@@ -27,18 +29,16 @@ function CopyStar(star) {
 
 var nStars = 130;
 var stars = [];
-var oldStars = [];
 var halfWidth;
 var halfHeight;
 
 function setup() {
-  createCanvas(300,300);
+  createCanvas(500,300);
   halfWidth = width/2;
   halfHeight = height/2;
   for (let i = 0; i < nStars; ++i)
   {
     stars.push(new Star());
-    oldStars.push(CopyStar(stars[i]));
   }
   
   colorMode(HSB, 100);
@@ -53,26 +53,18 @@ function draw() {
   translate(halfWidth + random(-3,3), halfHeight + random(-3,3));
   for (let i = 0; i < nStars; ++i)
   {
-    let sx = oldStars[i].x * oldStars[i].z;
-    let sy = oldStars[i].y * oldStars[i].z;
-    strokeWeight(min(oldStars[i].z * 2.5, 45));
-    stroke(oldStars[i].h, oldStars[i].s, oldStars[i].b);
-    point(sx,sy);
-  }
-  
-  for (let i = 0; i < nStars; ++i)
-  {
     stars[i].z *= 1 + stars[i].z/27;
     let sx = stars[i].x * stars[i].z;
     let sy = stars[i].y * stars[i].z;
+    stroke(stars[i].h, stars[i].s, stars[i].b);
+    strokeWeight(1);
+    line(stars[i].ox, stars[i].oy, sx, sy);
     strokeWeight(min(stars[i].z * 2.5, 45));
     this.b = min((stars[i].z + 1) * this.b, 255);
-    stroke(stars[i].h, stars[i].s, stars[i].b);
     point(sx,sy);
     if (sx < -halfWidth || sx > halfWidth || sy < -halfHeight || sy > halfHeight)
     {
       stars[i].reset();
     }
-    oldStars[i] = CopyStar(stars[i]);
   }
 }
